@@ -10,9 +10,9 @@ COPY ./ssl.conf /etc/apache2/sites-available/
 COPY ./php.ini /usr/local/etc/php/
 
 # 証明書作成
-ADD generate-ssh-keys.sh /opt/generate-ssh-keys.sh
-RUN chmod a+x /opt/generate-ssh-keys.sh
-RUN /bin/bash -c "source /opt/generate-ssh-keys.sh /etc/apache2/ssl_keys localhost"
+ADD generate-ssl-keys.sh /opt/generate-ssl-keys.sh
+RUN chmod a+x /opt/generate-ssl-keys.sh
+RUN /bin/bash -c "source /opt/generate-ssl-keys.sh /etc/apache2/ssl_keys localhost"
 
 RUN a2enmod ssl
 RUN a2ensite ssl
