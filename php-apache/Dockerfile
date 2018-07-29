@@ -6,4 +6,14 @@ RUN apt-get update && \
 
 COPY ./base.conf /etc/apache2/sites-available/
 COPY ./000-default.conf /etc/apache2/sites-available/
+COPY ./ssl.conf /etc/apache2/sites-available/
 COPY ./php.ini /usr/local/etc/php/
+
+# 証明書作成
+ADD generate-ssh-keys.sh /opt/generate-ssh-keys.sh
+RUN chmod a+x /opt/generate-ssh-keys.sh
+RUN /bin/bash -c "source /opt/generate-ssh-keys.sh /etc/apache2/ssl_keys localhost"
+
+RUN a2enmod ssl
+RUN a2ensite ssl
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
